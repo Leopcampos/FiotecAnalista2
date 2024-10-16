@@ -2,47 +2,44 @@
 using FiotecInfodengue.Domain.Exceptions;
 using FiotecInfodengue.Domain.Interfaces.Repositories;
 using FiotecInfodengue.Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Identity;
 
 namespace FiotecInfodengue.Domain.Services;
 
 public class UsuarioDomainService : IUsuarioDomainService
 {
     private readonly IUsuarioRepository _repository;
-    private readonly UserManager<Usuario> _userManager;
 
-    public UsuarioDomainService(IUsuarioRepository repository, UserManager<Usuario> userManager)
+    public UsuarioDomainService(IUsuarioRepository repository)
     {
         _repository = repository;
-        _userManager = userManager;
     }
 
     public async Task<IEnumerable<Usuario>> GetAllAsync()
         => await _repository.GetAllAsync();
 
-    public async Task<Usuario?> GetByIdAsync(string id)
+    public async Task<Usuario?> GetByIdAsync(int id)
         => await _repository.GetByIdAsync(id);
 
     public async Task<Usuario?> GetByEmailAsync(string email)
         => await _repository.GetByEmailAsync(email);
 
-    public async Task<IdentityResult> CreateAsync(Usuario usuario, string senha)
+    public async Task<Usuario> CreateAsync(Usuario usuario)
     {
         var usuarioExistente = await GetByEmailAsync(usuario.Email);
         if (usuarioExistente != null)
             throw new EmailException("Já existe um usuário com este e-mail.");
 
-        return await _userManager.CreateAsync(usuario, senha);
+        return await _repository.CreateAsync(usuario);
     }
 
-    public async Task<IdentityResult> UpdateAsync(Usuario usuario)
+    public async Task<Usuario> UpdateAsync(Usuario usuario)
     {
         return await _repository.UpdateAsync(usuario);
     }
 
-    public async Task<IdentityResult> DeleteAsync(Usuario usuario)
+    public async Task DeleteAsync(Usuario usuario)
     {
-        return await _repository.DeleteAsync(usuario);
+        await _repository.DeleteAsync(usuario);
     }
 
     public async Task<bool> CheckEmailAndSenhaAsync(string email, string senha)
@@ -51,7 +48,7 @@ public class UsuarioDomainService : IUsuarioDomainService
         if (usuario == null)
             return false;
 
-        return await _userManager.CheckPasswordAsync(usuario, senha);
+        return usuario.Senha == senha;
     }
 
     public void Dispose()
