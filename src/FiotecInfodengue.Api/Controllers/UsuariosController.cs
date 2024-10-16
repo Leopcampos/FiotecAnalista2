@@ -32,7 +32,7 @@ namespace FiotecInfodengue.Api.Controllers
         /// Buscar usuário por Id
         /// </summary>
         [HttpGet("buscar-por-id/{id}")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(int id)
         {
             var usuario = await _usuarioAppService.GetByIdAsync(id);
             return usuario != null ? Ok(usuario) : NotFound();
@@ -52,11 +52,11 @@ namespace FiotecInfodengue.Api.Controllers
         /// Criar usuário
         /// </summary>
         [HttpPost("criar-usuario")]
-        public async Task<IActionResult> Create([FromBody] CriarUsuarioDto dto, string senha)
+        public async Task<IActionResult> Create([FromBody] CriarUsuarioDto dto)
         {
             try
             {
-                var usuario = await _usuarioAppService.CreateAsync(dto, senha);
+                var usuario = await _usuarioAppService.CreateAsync(dto);
                 return CreatedAtAction(nameof(GetById), new { id = usuario.Id }, usuario);
             }
             catch (EmailException ex)
@@ -73,7 +73,7 @@ namespace FiotecInfodengue.Api.Controllers
         /// Atualizar usuário
         /// </summary>
         [HttpPut("atualizar-usuario/{id}")]
-        public async Task<IActionResult> Update(string id, [FromBody] AtualizarUsuarioDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] AtualizarUsuarioDto dto)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace FiotecInfodengue.Api.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(); // Usuário não encontrado
+                return NotFound();
             }
             catch (Exception ex)
             {
@@ -95,16 +95,16 @@ namespace FiotecInfodengue.Api.Controllers
         /// </summary>
         [Authorize(Roles = "ADMIN")]
         [HttpDelete("deletar-usuario/{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 await _usuarioAppService.DeleteAsync(id);
-                return NoContent(); // Deletado com sucesso
+                return NoContent();
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(); // Usuário não encontrado
+                return NotFound();
             }
             catch (Exception ex)
             {

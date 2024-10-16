@@ -5,130 +5,126 @@ using FiotecInfodengue.Domain.Entities;
 using FiotecInfodengue.Domain.Exceptions;
 using FiotecInfodengue.Domain.Interfaces.Security;
 using FiotecInfodengue.Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Identity;
 
-namespace FiotecInfodengue.Application.Services;
-
-public class UsuarioAppService : IUsuarioAppService
+namespace FiotecInfodengue.Application.Services
 {
-    private readonly IUsuarioDomainService _usuarioDomainService;
-    private readonly IAuthorizationSecurity _authorizationSecurity;
-    private readonly IMapper _mapper;
-    private readonly UserManager<Usuario> _userManager;
-
-    public UsuarioAppService(IUsuarioDomainService usuarioDomainService,
-        IMapper mapper,
-        IAuthorizationSecurity authorizationSecurity,
-        UserManager<Usuario> userManager)
+    public class UsuarioAppService : IUsuarioAppService
     {
-        _usuarioDomainService = usuarioDomainService;
-        _mapper = mapper;
-        _authorizationSecurity = authorizationSecurity;
-        _userManager = userManager;
-    }
+        private readonly IUsuarioDomainService _usuarioDomainService;
+        private readonly IAuthorizationSecurity _authorizationSecurity;
+        private readonly IMapper _mapper;
 
-    public async Task<IEnumerable<UsuarioDto>> GetAllAsync()
-    {
-        var usuarios = await _usuarioDomainService.GetAllAsync();
-        return _mapper.Map<IEnumerable<UsuarioDto>>(usuarios);
-    }
-
-    public async Task<UsuarioDto> GetByEmailAsync(string email)
-    {
-        var usuario = await _usuarioDomainService.GetByEmailAsync(email);
-        return _mapper.Map<UsuarioDto>(usuario);
-    }
-
-    public async Task<UsuarioDto> GetByIdAsync(string id)
-    {
-        var usuario = await _usuarioDomainService.GetByIdAsync(id);
-        return _mapper.Map<UsuarioDto>(usuario);
-    }
-
-    public async Task<UsuarioDto> CreateAsync(CriarUsuarioDto dto, string senha)
-    {
-        try
+        public UsuarioAppService(IUsuarioDomainService usuarioDomainService,
+            IAuthorizationSecurity authorizationSecurity,
+            IMapper mapper)
         {
-            var usuario = _mapper.Map<Usuario>(dto);
-            usuario.DataCriacao = DateTime.Now;
+            _usuarioDomainService = usuarioDomainService;
+            _authorizationSecurity = authorizationSecurity;
+            _mapper = mapper;
+        }
 
-            var result = await _userManager.CreateAsync(usuario, senha);
+        public async Task<IEnumerable<UsuarioDto>> GetAllAsync()
+        {
+            var usuarios = await _usuarioDomainService.GetAllAsync();
+            return _mapper.Map<IEnumerable<UsuarioDto>>(usuarios);
+        }
 
-            if (!result.Succeeded)
-            {
-                throw new Exception("Erro ao criar o usuário.");
-            }
-
+        public async Task<UsuarioDto> GetByEmailAsync(string email)
+        {
+            var usuario = await _usuarioDomainService.GetByEmailAsync(email);
             return _mapper.Map<UsuarioDto>(usuario);
         }
-        catch (EmailException)
-        {
-            throw;
-        }
-    }
 
-    public async Task<UsuarioDto> UpdateAsync(string id, AtualizarUsuarioDto dto)
-    {
-        try
-        {
-            var usuarioExistente = await _usuarioDomainService.GetByIdAsync(id);
-            if (usuarioExistente == null)
-                throw new KeyNotFoundException("Usuário não encontrado.");
-
-            var usuario = _mapper.Map<Usuario>(dto);
-            usuario.Id = id;
-
-            await _usuarioDomainService.UpdateAsync(usuario);
-            return _mapper.Map<UsuarioDto>(usuario);
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
-
-    public async Task DeleteAsync(string id)
-    {
-        try
+        public async Task<UsuarioDto> GetByIdAsync(int id)
         {
             var usuario = await _usuarioDomainService.GetByIdAsync(id);
-            await _usuarioDomainService.DeleteAsync(usuario);
+            return _mapper.Map<UsuarioDto>(usuario);
         }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-    }
 
-    public async Task<(string Token, string ErrorMessage)> AutenticarAsync(LoginDto loginDto)
-    {
-        try
+        public async Task<UsuarioDto> CreateAsync(CriarUsuarioDto dto)
         {
-            var usuario = await _usuarioDomainService.GetByEmailAsync(loginDto.Email);
-
-            if (usuario == null)
+            try
             {
-                return (null, "Usuário não encontrado.");
-            }
+                var usuario = _mapper.Map<Usuario>(dto);
+                usuario.DataCriacao = DateTime.Now;
 
-            // Verificar a senha usando o UserManager
-            var validPassword = await _userManager.CheckPasswordAsync(usuario, loginDto.Senha);
-            if (!validPassword)
+                var usuarioCriado = await _usuarioDomainService.CreateAsync(usuario);
+
+                return _mapper.Map<UsuarioDto>(usuarioCriado);
+            }
+            catch (EmailException)
             {
-                return (null, "Senha inválida.");
+                throw;
             }
-
-            var token = _authorizationSecurity.CreateToken(usuario);
-            return (token, null);
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao criar o usuário: " + ex.Message);
+            }
         }
-        catch (Exception ex)
+
+        public async Task<UsuarioDto> UpdateAsync(int id, AtualizarUsuarioDto dto)
         {
-            return (null, ex.Message);
-        }
-    }
+            try
+            {
+                var usuarioExistente = await _usuarioDomainService.GetByIdAsync(id);
+                if (usuarioExistente == null)
+                    throw new KeyNotFoundException("Usuário não encontrado.");
 
-    public void Dispose()
-    {
-        _usuarioDomainService.Dispose();
+                var usuario = _mapper.Map<Usuario>(dto);
+                usuario.Id = id;
+
+                await _usuarioDomainService.UpdateAsync(usuario);
+                return _mapper.Map<UsuarioDto>(usuario);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao atualizar o usuário: " + ex.Message);
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            try
+            {
+                var usuario = await _usuarioDomainService.GetByIdAsync(id);
+                await _usuarioDomainService.DeleteAsync(usuario);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao deletar o usuário: " + ex.Message);
+            }
+        }
+
+        public async Task<(string Token, string ErrorMessage)> AutenticarAsync(LoginDto loginDto)
+        {
+            try
+            {
+                var usuario = await _usuarioDomainService.GetByEmailAsync(loginDto.Email);
+
+                if (usuario == null)
+                {
+                    return (null, "Usuário não encontrado.");
+                }
+
+                // Verificar a senha
+                var validPassword = await _usuarioDomainService.CheckEmailAndSenhaAsync(loginDto.Email, loginDto.Senha);
+                if (!validPassword)
+                {
+                    return (null, "Senha inválida.");
+                }
+
+                var token = _authorizationSecurity.CreateToken(usuario);
+                return (token, null);
+            }
+            catch (Exception ex)
+            {
+                return (null, ex.Message);
+            }
+        }
+
+        public void Dispose()
+        {
+            _usuarioDomainService.Dispose();
+        }
     }
 }
