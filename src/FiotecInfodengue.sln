@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiotecInfodengue.Api", "FiotecInfodengue.Api\FiotecInfodengue.Api.csproj", "{65F89263-62F7-4779-A2B0-8CAA80A12276}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiotecInfodengue.Domain", "FiotecInfodengue.Domain\FiotecInfodengue.Domain.csproj", "{E49C9324-63E9-403F-AEA3-DC880CFC3B3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiotecInfodengue.Infra.Data", "FiotecInfodengue.Infra.Data\FiotecInfodengue.Infra.Data.csproj", "{D7A7EB31-1FB1-4B1E-A5E3-98D5DA4B2650}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiotecInfodengue.Application", "FiotecInfodengue.Application\FiotecInfodengue.Application.csproj", "{92485619-E426-49CC-9271-FBF4A673CCA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiotecInfodengue.Infra.IoC", "FiotecInfodengue.Infra.IoC\FiotecInfodengue.Infra.IoC.csproj", "{8A523532-4EBE-45B4-BDAE-C816AE5D4D7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiotecInfodengue.Infra.Secutiry", "FiotecInfodengue.Infra.Secutiry\FiotecInfodengue.Infra.Secutiry.csproj", "{72AA50D5-F307-4676-B603-AA29278D3EF1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65F89263-62F7-4779-A2B0-8CAA80A12276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65F89263-62F7-4779-A2B0-8CAA80A12276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65F89263-62F7-4779-A2B0-8CAA80A12276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65F89263-62F7-4779-A2B0-8CAA80A12276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E49C9324-63E9-403F-AEA3-DC880CFC3B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E49C9324-63E9-403F-AEA3-DC880CFC3B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E49C9324-63E9-403F-AEA3-DC880CFC3B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E49C9324-63E9-403F-AEA3-DC880CFC3B3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7A7EB31-1FB1-4B1E-A5E3-98D5DA4B2650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A7EB31-1FB1-4B1E-A5E3-98D5DA4B2650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A7EB31-1FB1-4B1E-A5E3-98D5DA4B2650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A7EB31-1FB1-4B1E-A5E3-98D5DA4B2650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92485619-E426-49CC-9271-FBF4A673CCA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92485619-E426-49CC-9271-FBF4A673CCA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92485619-E426-49CC-9271-FBF4A673CCA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92485619-E426-49CC-9271-FBF4A673CCA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A523532-4EBE-45B4-BDAE-C816AE5D4D7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A523532-4EBE-45B4-BDAE-C816AE5D4D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A523532-4EBE-45B4-BDAE-C816AE5D4D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A523532-4EBE-45B4-BDAE-C816AE5D4D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72AA50D5-F307-4676-B603-AA29278D3EF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72AA50D5-F307-4676-B603-AA29278D3EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72AA50D5-F307-4676-B603-AA29278D3EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72AA50D5-F307-4676-B603-AA29278D3EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E94876FD-F595-4B38-92E7-80A608BE9E0C}
+	EndGlobalSection
+EndGlobal

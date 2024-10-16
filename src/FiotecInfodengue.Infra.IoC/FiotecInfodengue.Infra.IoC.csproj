@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FiotecInfodengue.Application\FiotecInfodengue.Application.csproj" />
+    <ProjectReference Include="..\FiotecInfodengue.Domain\FiotecInfodengue.Domain.csproj" />
+    <ProjectReference Include="..\FiotecInfodengue.Infra.Data\FiotecInfodengue.Infra.Data.csproj" />
+    <ProjectReference Include="..\FiotecInfodengue.Infra.Secutiry\FiotecInfodengue.Infra.Secutiry.csproj" />
+  </ItemGroup>
+
+</Project>
